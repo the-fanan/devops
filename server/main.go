@@ -14,7 +14,7 @@ func about(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	PORT := ":4000"
+	PORT := ":4040"
 	r := http.NewServeMux()
 	r.HandleFunc("/", home)
 	r.HandleFunc("/about", about)
