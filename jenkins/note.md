@@ -23,3 +23,34 @@ Links I have found helpful:
 2. [Handling Private Repos using SSH](https://shreyakupadhyay.medium.com/integrate-jenkins-with-github-private-repo-8fb335494f7e)
 3. [Plugin For Environment Variables In Build](https://plugins.jenkins.io/text-file-operations/)
 4. [Basic Laravel DevOps Setup with Jenkins](https://faun.pub/configure-laravel-8-for-ci-cd-with-jenkins-and-github-part-1-58b9be304292)
+
+Sample Groovy script to build and deploy to private docker registry
+```
+pipeline {
+    agent any
+    stages {
+        stage("Docker build") {
+            steps {
+                sh "docker build -t [REGISTRY_HOST]/[BUILD_NAME] ."
+            }
+        }
+        stage("Docker push") {
+            environment {
+                DOCKER_USERNAME = credentials("docker-user")
+                DOCKER_PASSWORD = credentials("docker-password")
+            }
+            steps {
+                sh "docker login [REGISTRY_HOST] --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
+                sh "docker push [REGISTRY_HOST]/[BUILD_NAME]"
+            }
+        }
+    }
+}   
+```
+5. [Pulling From Private Registries](https://www.baeldung.com/linux/docker-compose-private-repositories)
+`docker pull [REGISTRY_HOST]/[BUILD_NAME]`
+```
+other-registry:
+    image: [REGISTRY_HOST]/[REGISTRY_USER]/[BUILD_NAME]
+```
+Note how the user needs to be specified in the docker-compose but not in CLI (I am not sure if the user must be speicifed in docker-compose file. I will experiment and update this)
