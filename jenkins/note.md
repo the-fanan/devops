@@ -54,3 +54,4 @@ other-registry:
     image: [REGISTRY_HOST]/[REGISTRY_USER]/[BUILD_NAME]
 ```
 Note how the user needs to be specified in the docker-compose but not in CLI (I am not sure if the user must be speicifed in docker-compose file. I will experiment and update this)
+6. [Tell K8s to pull and deploy new images](https://stackoverflow.com/a/55914480/7715823)
